@@ -41,6 +41,14 @@ class Assistant(Agent):
         except Exception:
             return "Sorry, I could not calculate that."
 
+    @function_tool()
+    async def get_current_time(self, context: RunContext) -> str:
+        """Get the current local date and time."""
+        from datetime import datetime
+
+        now = datetime.now()
+        return now.strftime("The current date and time is %A, %B %d, %Y at %I:%M %p.")
+
     def __init__(self) -> None:
         super().__init__(
             instructions=(
