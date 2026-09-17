@@ -1,0 +1,2 @@
+livekit-agents[groq,deepgram,cartesia,silero,turn-detector]~=1.8
+python-dotenv~=1.0
