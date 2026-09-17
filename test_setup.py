@@ -25,6 +25,7 @@ REQUIRED_VARS = [
     "GROQ_API_KEY",
     "DEEPGRAM_API_KEY",
     "CARTESIA_API_KEY",
+    "TAVILY_API_KEY",
 ]
 
 
@@ -121,6 +122,30 @@ def check_cartesia() -> bool:
         return False
 
 
+def check_tavily() -> bool:
+    print("6. Checking Tavily API key...")
+    try:
+        import httpx
+
+        r = httpx.post(
+            "https://api.tavily.com/search",
+            json={
+                "api_key": os.getenv("TAVILY_API_KEY"),
+                "query": "test search",
+                "max_results": 1,
+            },
+            timeout=10,
+        )
+        if r.status_code == 200:
+            print("   OK - Tavily key is valid.")
+            return True
+        print(f"   FAILED - Tavily returned status {r.status_code}: {r.text[:200]}")
+        return False
+    except Exception as e:  # noqa: BLE001
+        print(f"   FAILED - {e}")
+        return False
+
+
 def main() -> None:
     print("=== Voice AI Agent — setup check ===\n")
 
@@ -132,6 +157,7 @@ def main() -> None:
         check_groq(),
         check_deepgram(),
         check_cartesia(),
+        check_tavily(),
     ]
 
     print()
