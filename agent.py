@@ -20,7 +20,7 @@ import logging
 from dotenv import load_dotenv
 
 from livekit import agents
-from livekit.agents import Agent, AgentSession, JobContext, RoomInputOptions, WorkerOptions, cli
+from livekit.agents import Agent, AgentSession, JobContext, RoomInputOptions, WorkerOptions, RunContext, function_tool, cli
 from livekit.plugins import cartesia, deepgram, groq, silero
 
 # Load variables from .env before anything else touches os.environ
@@ -31,6 +31,15 @@ logger = logging.getLogger("voice-agent")
 
 class Assistant(Agent):
     """Defines the agent's persona and behaviour."""
+
+    @function_tool()
+    async def calculate(self, context: RunContext, expression: str) -> str:
+        """Calculate a mathematical expression."""
+        try:
+            result = eval(expression, {"__builtins__": {}}, {})
+            return f"The result is {result}."
+        except Exception:
+            return "Sorry, I could not calculate that."
 
     def __init__(self) -> None:
         super().__init__(
