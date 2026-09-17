@@ -1,0 +1,33 @@
+# Secrets — never commit real credentials
+.env
+.env.local
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.Python
+build/
+dist/
+
+# LiveKit Agents downloaded model files (silero VAD, turn-detector, etc.)
+*.onnx
+.cache/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Test / temp
+.pytest_cache/
+*.tmp
